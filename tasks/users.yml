@@ -1,0 +1,40 @@
+---
+
+- name: Ensure engineering groups are present
+  become: yes
+  group:
+    name: "{{ item }}"
+    state: present
+  with_items:
+    - "{{ users | sum(attribute='groups', start=[]) | list | unique }}"
+
+- name: Ensure engineering users are present
+  become: yes
+  user:
+    name: "{{ item.name }}"
+    group: "{{ item.groups[0] }}"
+    groups: "{{ item.groups | join(',') }}"
+    password: '{% for user in vault_users | default([]) if user.name == item.name and user.password is defined %}{{ user.password | password_hash("sha512", (user.salt | default(""))[:16] | regex_replace("[^\.\/a-zA-Z0-9]", "x")) }}{% else %}{{ None }}{% endfor %}'
+    state: present
+    shell: /bin/bash
+  with_items: "{{ users }}"
+
+- name: Add sudo users, groups sudo file, and remove passwords
+  become: yes
+  template:
+    src: admin-sudoers.j2
+    dest: /etc/sudoers.d/admin-users
+    mode: 0440
+    owner: root
+    group: root
+    validate: "/usr/sbin/visudo -cf %s"
+
+- name: Add SSH keys
+  become: yes
+  authorized_key:
+    user: "{{ item.0.name }}"
+    key: "{{ item.1 }}"
+  with_subelements:
+    - "{{ users | default([]) }}"
+    - ssh_keys
+    - skip_missing: true
