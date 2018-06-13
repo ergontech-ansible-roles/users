@@ -44,7 +44,7 @@
   tags:
     - ssh
 
-- include: users.yml
+- include_tasks: users.yml
   when: users
   tags:
     - users
