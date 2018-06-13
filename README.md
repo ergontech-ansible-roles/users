@@ -7,6 +7,16 @@ Role Variables
 
 ```
 install_deploy_user: false
+users: false
+
+# OR
+
+users:
+  - name: some-user
+    groups:
+      - some-group
+    ssh_keys:
+      - https://github.com/some-user.keys
 
 deploy_group: deploy
 deploy_user: deploy

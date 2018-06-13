@@ -2,5 +2,7 @@
 
 install_deploy_user: false
 
+users: false
+
 deploy_group: deploy
 deploy_user: deploy
