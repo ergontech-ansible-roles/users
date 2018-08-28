@@ -6,9 +6,9 @@
     name: sudo
     state: present
   tags:
-  - ssh
-  - packages
-  - users
+    - ssh
+    - packages
+    - users
 
 - name: Ensure filesystem group is present
   become: yes
@@ -17,7 +17,7 @@
     state: present
   when: install_fs_user
   tags:
-  - users
+    - users
 
 - name: Ensure filesystem user is present
   become: yes
@@ -29,7 +29,7 @@
     shell: /bin/bash
   when: install_fs_user
   tags:
-  - users
+    - users
 
 - name: Add filesystem user sudoers items for services
   become: yes
@@ -42,9 +42,9 @@
     validate: "/usr/sbin/visudo -cf %s"
   when: install_fs_user
   tags:
-  - users
+    - users
 
 - include_tasks: users.yml
   when: users
   tags:
-  - users
+    - users
