@@ -33,7 +33,7 @@
 - name: Add filesystem user sudoers items for services
   become: yes
   template:
-    src: deploy-sudoers.j2
+    src: fs-sudoers.j2
     dest: "/etc/sudoers.d/{{ fs_user }}-services"
     mode: 0440
     owner: root

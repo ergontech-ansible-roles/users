@@ -1,0 +1,6 @@
+# {{ ansible_managed }}
+
+# No password for services run by the web user
+{% for service in fs_sudoers %}
+{{ fs_user }} ALL=(root) NOPASSWD: {{ service }}
+{% endfor %}
