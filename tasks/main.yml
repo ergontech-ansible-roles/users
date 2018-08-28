@@ -1,6 +1,7 @@
 ---
 
 - name: Ensure sudo package installed and up to date
+  become: yes
   apt:
     name: sudo
     state: present
