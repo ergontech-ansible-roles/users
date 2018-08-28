@@ -6,7 +6,7 @@
     name: "{{ item }}"
     state: present
   with_items:
-    - "{{ users | sum(attribute='groups', start=[]) | list | unique }}"
+  - "{{ users | sum(attribute='groups', start=[]) | list | unique }}"
 
 - name: Ensure engineering users are present
   become: yes
@@ -35,6 +35,6 @@
     user: "{{ item.0.name }}"
     key: "{{ item.1 }}"
   with_subelements:
-    - "{{ users | default([]) }}"
-    - ssh_keys
-    - skip_missing: true
+  - "{{ users | default([]) }}"
+  - ssh_keys
+  - skip_missing: true
