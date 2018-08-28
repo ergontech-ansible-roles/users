@@ -1,8 +1,6 @@
 ---
 
-install_deploy_user: false
-
+install_fs_user: false
 users: false
-
-deploy_group: deploy
-deploy_user: deploy
+fs_user: www-data
+fs_group: www-data
